@@ -10,7 +10,7 @@ This code is based on C [libami](http://sourceforge.net/projects/amsuite/files/l
 The following command will install the AMI client.
 
 ```sh
-go get -u github.com/heltonmarx/goami/ami
+go get -u github.com/tel4vn/goami/ami
 ```
 
 To test this package with Asterisk it's necessary set the file `/etc/asterisk/manager.conf` with configuration bellow:
@@ -38,7 +38,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/heltonmarx/goami/ami"
+	"github.com/tel4vn/goami/ami"
 )
 
 var (
