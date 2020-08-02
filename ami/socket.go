@@ -8,6 +8,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"errors"
+	// "fmt"
 )
 
 // Socket holds the socket client connection data.
@@ -79,6 +81,8 @@ func (s *Socket) Recv() (string, error) {
 			}
 		case <-s.shutdown:
 			return buffer.String(), io.EOF
+		case <-time.After(5 * time.Second):
+			return buffer.String(), errors.New("Timeout")
 		}
 	}
 }

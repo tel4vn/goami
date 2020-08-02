@@ -46,13 +46,15 @@ func Logoff(client Client, actionID string) error {
 // Ping action will ellicit a 'Pong' response.
 // Used to keep the manager connection open.
 func Ping(client Client, actionID string) error {
-	resp, err := send(client, "Ping", actionID, nil)
+	_, err := send(client, "Ping", actionID, nil)
 	if err != nil {
 		return err
 	}
-	if ok := resp.Get("Response"); ok != "Success" {
-		return fmt.Errorf("ping failed: %v", resp.Get("Message"))
-	}
+	// fmt.Printf("Ping Response From Asterisk: %v \n", resp)
+	// if ok := resp.Get("Response"); ok != "Success" {
+	// 	// return fmt.Errorf("ping failed: %v", resp.Get("Message"))
+	// 	fmt.Errorf("ping failed: %v", resp.Get("Message"))
+	// }
 	return nil
 }
 

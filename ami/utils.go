@@ -3,6 +3,7 @@ package ami
 import (
 	"bytes"
 	"errors"
+	// "time"
 	"fmt"
 	"os"
 	"strings"
@@ -46,6 +47,56 @@ func send(client Client, action, id string, v interface{}) (Response, error) {
 	}
 	return read(client)
 }
+func sendAsync(client Client, action, id string, v interface{}) (Response, error) {
+	b, err := command(action, id, v)
+	if err != nil {
+		return nil, err
+	}
+	if err := client.Send(string(b)); err != nil {
+		return nil, err
+	}
+	return nil, nil
+}
+// func sendPing(client Client, action, id string, v interface{}) (Response, error) {
+// 	b, err := command(action, id, v)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	if err := client.Send(string(b)); err != nil {
+// 		return nil, err
+// 	}
+// 	return readPong(client, id)
+// }
+// func readPong(client Client, id string) (Response, error) {
+// 	var buffer bytes.Buffer
+// 	timeout := time.After(time.Second * 2)
+// 	loop:
+// 	for {
+// 		select {
+// 			case <-timeout:
+// 				fmt.Printf("response timeout")
+// 				return nil, errors.New("response timeout")
+// 			default:
+// 				input, err := client.Recv()
+// 				// fmt.Printf("readWithId prev: DDDDDDdd: %v \n", input)
+// 				if err != nil {	
+// 					return nil, err
+// 				}
+// 				buffer.WriteString(input)
+// 				content := buffer.String()
+// 				if strings.HasSuffix(content, "\r\n\r\n") {
+// 					resp, _ := parseResponse(content)
+// 					pongValue := resp.Get("Ping")
+// 					if (pongValue == "Pong") {
+// 						break loop
+// 					} else {
+// 						buffer.Reset()
+// 					}
+// 				}
+// 		}
+// 	}
+// 	return parseResponse(buffer.String())
+// }
 
 func read(client Client) (Response, error) {
 	var buffer bytes.Buffer

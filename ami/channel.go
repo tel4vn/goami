@@ -27,7 +27,7 @@ func Hangup(client Client, actionID, channel, cause string) (Response, error) {
 // Originate originates a call.
 // Generates an outgoing call to a Extension/Context/Priority or Application/Data.
 func Originate(client Client, actionID string, originate OriginateData) (Response, error) {
-	return send(client, "Originate", actionID, originate)
+	return sendAsync(client, "Originate", actionID, originate)
 }
 
 // Park parks a channel.
